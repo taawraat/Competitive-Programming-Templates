@@ -41,18 +41,23 @@ string strMultiplication(string a, string b){
     for(int i = b.length()-1; i >= 0; i--){
         int carry = 0;
         string current;
- 
-        for(int j = a.length()-1; j >= 0; j--){
-            int S1_j = a[j] - 48;
-            int S2_i = b[i] - 48;
-            int temp = (S1_j * S2_i) + carry;
-            carry = temp/10;
-            current.push_back((char)((temp%10) + 48));
-        }
+
+        if(b[i] == '0')
+            current.push_back('0');
+        else
+            for(int j = a.length()-1; j >= 0; j--){
+                int S1_j = a[j] - 48;
+                int S2_i = b[i] - 48;
+                int temp = (S1_j * S2_i) + carry;
+                carry = temp/10;
+                // if(current != "0")
+                    current.push_back((char)((temp%10) + 48));
+            }
         if(carry) current.push_back(carry+48);
         reverse(current.begin(), current.end());
         current += postZeros;
         ans = sum(ans,current);
+        
         postZeros += "0";
     }
  
