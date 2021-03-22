@@ -47,37 +47,30 @@ ll bigMod(ll a, ll b, ll m)
   return ans;
 }
 
-// generate euler totient function
-ll totientof[10000+10];
-// prime factorization
-void factorize(ll n,set<ll>& s){
+ll phiof[10000+10];
+// returns the value phi(n)
+ll phi(ll n){
+    ll result = n;
     for(int i = 2; i*i <= n; i++){
         if(n%i == 0){
-            s.insert(i);
+            result /= i;
+            result *= (i-1);
+
             while(n%i == 0)
                 n = n/i;
         }
     }
-    if(n > 2)
-        s.insert(n);
+    if(n > 1)
+        result /= n, result *= (n-1);
+
+    return result;
 }
 
-set<ll> s;
-void totientGenerate(){
-    totientof[1] = 1;
-    for(ll i = 2; i <= 10000+10; i++){
-        s.clear();
-        factorize(i,s);
-        if(s.size() == 0)
-            totientof[i] = i-1;
-        else{
-            ll tmp = i;
-            for(auto it: s)
-                tmp = (tmp/it) * (it-1);
-            
-            totientof[i] = tmp;
-        }
-    }
+// Generates the value of phi
+void phiGenerate(){
+    phiof[1] = 1;
+    for(int i = 2; i <= 10000; i++)
+        phiof[i] = phi(i);
 }
 
 // driver function
