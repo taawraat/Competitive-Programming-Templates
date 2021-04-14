@@ -1,9 +1,8 @@
 
 #include <iostream>
-#define MAX 20000001
-char prime[MAX];
 using namespace std;
 
+// ===> start <=== //
 // findGCD function to find GCD
 int findGCD(int first, int second)
 { 
@@ -12,24 +11,35 @@ int findGCD(int first, int second)
   
   return findGCD(second, first % second);
 }
+// ===> end <=== //
 
-// check if n is prime
+// ===> start <=== //
+const int constrains = (1e6);
+char prime[constrains];
+
+// check is n is prime for sieve
 bool isPrime(int n){
-  if(n == 2) return true;
-  else if(!(n & 1)) return false;
-  else if(!prime[n]) return true;
-  else return false;
+    if(n == 2) return true;
+    else if(!(n&1)) return false;
+    else if(!prime[n]) return true;
+    else return false;
 }
 
-// prime function using sieve
-void primeGen(){
-  prime[1] = 1;
-  for(int i = 3; i*i <= MAX ; i += 2)
-    if(isPrime(i))
-      for(int j = i+i; j <= MAX; j += i)
-        prime[j] = 1;
-}
+// sieve algorithm
+void sieve(){
+    prime[0] = prime[1] = 1;
 
+    for(int i = 3; i*i <= constrains; i += 2){
+        if(isPrime(i)){
+            for(int j = i+i; j <= constrains; j += i)
+                prime[j] = 1;
+        }
+    }
+}
+// ===> end <=== //
+
+
+// ===> start <=== //
 // bigMod function to calculate (a^b mod m)
 ll bigMod(ll a, ll b, ll m)
 {
@@ -46,7 +56,9 @@ ll bigMod(ll a, ll b, ll m)
   }
   return ans;
 }
+// ===> end <=== //
 
+// ===> start <=== //
 ll phiof[10000+10];
 // returns the value phi(n)
 ll phi(ll n){
@@ -72,10 +84,9 @@ void phiGenerate(){
     for(int i = 2; i <= 10000; i++)
         phiof[i] = phi(i);
 }
+// ===> end <=== //
 
 // driver function
-int main(){
-  primeGen();
-  
+int main(){  
   // start
 }
