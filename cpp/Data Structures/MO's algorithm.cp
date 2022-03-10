@@ -27,7 +27,8 @@ void MO(vector<query>& Query, vector<ll>& Ans){
 
     int L,R;
     int currentL = 0, currentR = 0;
-
+	
+    // all are 0 based indexing
     for(auto &it: Query){
         L = it.L;
         R = it.R;
