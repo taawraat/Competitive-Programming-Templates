@@ -15,7 +15,7 @@ int findGCD(int first, int second)
 
 // ===> start <=== //
 const int constrains = (1e6);
-char prime[constrains];
+char prime[constrains + 5];
 
 // check is n is prime for sieve
 bool isPrime(int n){
