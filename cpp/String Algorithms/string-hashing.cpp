@@ -41,7 +41,9 @@ public:
         hash = vector<ll>(sz+5);
 
         for(int i = 1; i <= sz; i++){
-            hash[i] = modAdd(hash[i-1], modMul(power[i-1], chartoint(s[i-1])));
+            hash[i] = modAdd(hash[i-1], modMul(power[i-1], chartoint(s[i-1]))); // this will reverse hash the string
+                                                                                // EX: 1234 will be 4321 if base is 10
+                                                                                // for non-reversed, formula is (presum * base) + character
         }
     }
 
