@@ -12,7 +12,7 @@ public:
 
     void build(int n, vector<ll>& v){
         for(ll i = 1; i <= n; i++){
-            sp_table[0][i] = v[i];
+            sp_table[0][i] = v[i-1];
         }
 
         for(ll k = 1; k <= 25; k++){
