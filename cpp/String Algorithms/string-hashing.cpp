@@ -1,36 +1,38 @@
 class Hash{
+    // Possible TLE verdict for using so many long long data types
+    // beaware of overflowing
     using ll = long long;
 public:
-    vector<ll> power;
-    vector<ll> inv;
-    vector<ll> hash;
+    vector<int> power;
+    vector<int> inv;
+    vector<int> hash;
     
     int n;
-    ll mod; string s; int base;
+    int mod; string s; int base;
 
-    int chartoint(char ch){ return (ch - 'a') + 1; }; // control this function if needed
+    int chartoint(char ch){ return (ch - 'a') + 1; }; // control this function if needed, small letter characters
 
-    ll bigMod(ll a, ll b){ int ans = 1; a = a % mod; while(b){ if(b & 1) ans = (ans * a) % mod; a = (a*a) % mod; b /= 2; } return ans; }
+    int bigMod(ll a, int b){ int ans = 1; a = a % mod; while(b){ if(b & 1) ans = (ans * a) % mod; a = (a*a) % mod; b /= 2; } return ans; }
     
-    ll MOD(ll num){ return ((num%mod + mod)%mod); }
+    int MOD(int num){ return ((num + mod)%mod); }
 
-    ll modAdd(ll a, ll b){ return MOD(MOD(a) + MOD(b)); }
+    int modAdd(int a, int b){ return (a+b) % mod; }
 
-    ll modSub(ll a, ll b){ return MOD(MOD(a) - MOD(b)); }
+    int modSub(int a, int b){ return MOD(a - b); }
 
-    ll modMul(ll a, ll b){ return MOD(MOD(a) * MOD(b)); }
+    int modMul(ll a, int b){ return (a * b) % mod; }
     
-    ll modDiv(ll a, ll b){ return modMul(a, bigMod(b,mod-2)); }
+    int modDiv(int a, int b){ return modMul(a, inv[b]); }
 
     void precal_powers(){
-        power = vector<ll>(n+5);
-        inv = vector<ll>(n+5);
+        power = vector<int>(n+5);
+        inv = vector<int>(n+5);
         power[0] = inv[0] = 1;
 
         for(int i = 1; i <= n; i++){
             power[i] = modMul(power[i-1], base);
         }
-        ll pw_inv = bigMod(base, mod-2);
+        int pw_inv = bigMod(base, mod-2);
         for(int i = 1; i <= n; i++){
             inv[i] = modMul(inv[i-1], pw_inv);
         }
@@ -38,7 +40,7 @@ public:
 
     void build_hash(){
         int sz = s.size();
-        hash = vector<ll>(sz+5);
+        hash = vector<int>(sz+5);
 
         for(int i = 1; i <= sz; i++){
             hash[i] = modAdd(hash[i-1], modMul(power[i-1], chartoint(s[i-1]))); // this will reverse hash the string
@@ -48,10 +50,11 @@ public:
     }
 
     ll getHash(int l, int r){ // query is 1 based
+        if(l > r) return -1;
         return modMul(modSub(hash[r], hash[l-1]), inv[l-1]);
     }
 
-    Hash(string &s, int base = 31, int mod = 1e9+9){
+    Hash(string &s, int base = 29, int mod = 1e9+7){
         this->s = s;
         this->base = base;
         this->mod = mod;
